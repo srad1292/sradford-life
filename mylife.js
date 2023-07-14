@@ -55,9 +55,7 @@ function buildDayList() {
             dayDiv.classList.add("event");
         }
 
-        textPre = document.createElement("pre");
-        textPre.appendChild(document.createTextNode(eventText));
-        dayTooltip.appendChild(textPre);
+        dayTooltip.appendChild(document.createTextNode(eventText));
         dayDiv.appendChild(dayTooltip);
 
         lifeContainer.appendChild(dayDiv);
