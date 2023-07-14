@@ -139,7 +139,7 @@ function addPositioningEvents() {
     let tooltips = document.querySelectorAll('.day');
     tooltips.forEach(function(tooltip, index) {
         tooltip.addEventListener("mouseenter", positionTooltip);
-        tooltip.addEventListener("click", positionTooltip);
+        tooltip.addEventListener("touchstart", positionTooltip);
     });
 }
 
