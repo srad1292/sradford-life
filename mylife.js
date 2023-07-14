@@ -138,7 +138,8 @@ function getEventForDay(date) {
 function addPositioningEvents() {
     let tooltips = document.querySelectorAll('.day');
     tooltips.forEach((tooltip, index) => {
-        tooltip.addEventListener("mouseover", positionTooltip);
+        tooltip.addEventListener("mouseenter", positionTooltip);
+        tooltip.addEventListener("click", positionTooltip);
     });
 }
 
@@ -148,7 +149,7 @@ function positionTooltip() {
     let boundingRect = this.getBoundingClientRect();
 
     let tipX = boundingRect.width + 5; 
-    let tipY = -40; 
+    let tipY = -20; 
     // Position tooltip
     tooltipTextElem.style.top = tipY + 'px';
     tooltipTextElem.style.left = tipX + 'px';
@@ -162,7 +163,7 @@ function positionTooltip() {
 
     // Out of bounds below
     if ((tooltipRect.y + tooltipRect.height) > window.innerHeight) {
-        tipY = tipY -10;
+        tipY = -tooltipRect.height - 10;
     } 
 
     // Out of bounds above
