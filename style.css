@@ -36,24 +36,27 @@ h2 {
 }
   
 .day .tooltiptext {
-    visibility: hidden;
-    min-width: 220px;
-    white-space: pre-wrap;
-    background-color: lightgrey;
-    color: black;
     text-align: center;
-    padding: 5px 10px;
-    border-radius: 6px;
     font-family: Arial, Helvetica, sans-serif;
-   
-    display:none;
+    white-space: pre-wrap;
+    color: black;
+    
+    /* visibility: hidden; */
+    display: none;
+    min-width: 220px;
+    background-color: lightgrey;
+    border-radius: 6px;
+    padding: 5px 10px;
+    /* top: -999px;
+    left: -999px; */
+    left: 10px;
     position: absolute;
     z-index: 1;
 }
   
 .day:hover .tooltiptext {
-    display: inline-block;
-    visibility: visible;
-    top: -10px;
-    left: 15px;
+    display: block;
+    /* visibility: visible; */
+    /* top: -10px; */
+    /* left: 15px; */
 }

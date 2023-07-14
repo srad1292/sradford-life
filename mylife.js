@@ -7,25 +7,19 @@ let today = new Date();
 let eventText = '';
 let birthday = 0;
 
-function humanize(number) {
-    if(number % 100 >= 11 && number % 100 <= 13) return number + "th";
-    switch(number % 10) {
-      case 1: return number + "st";
-      case 2: return number + "nd";
-      case 3: return number + "rd";
-    }
-    return number + "th";
+
+
+function main() {
+    buildDayList();
+    addPositioningEvents();
 }
 
 function buildDayList() {
     let dayDiv;
     let dayTooltip;
-    let textPre;
-    let addedEvent;
     let customEventText = '';
 
     while(dateIterator < endDate) {
-        addedEvent = false;
         eventText = dateIterator.toDateString();
         
         dayTooltip = document.createElement("span");
@@ -39,10 +33,8 @@ function buildDayList() {
         }
 
         if(equalsDay(dateIterator,9,14,1992)) {
-            console.log("Found my birthday");
             eventText+="\nI was born!";
             dayDiv.classList.add("event");
-            addedEvent = true;
         } else if(dateIterator.getMonth()+1 === 9 && dateIterator.getDate() === 14 && dateIterator.getFullYear() > 1992 && dateIterator <= today) {
             // my birthday!
             eventText += `\nMy ${humanize(dateIterator.getFullYear()-1992)} birthday!`; 
@@ -63,7 +55,16 @@ function buildDayList() {
         dateIterator.setDate(dateIterator.getDate()+1);
     }
 
-    console.log("Finished building day list");
+}
+
+function humanize(number) {
+    if(number % 100 >= 11 && number % 100 <= 13) return number + "th";
+    switch(number % 10) {
+      case 1: return number + "st";
+      case 2: return number + "nd";
+      case 3: return number + "rd";
+    }
+    return number + "th";
 }
 
 function equalsDay(currentDate, month, day, year) {
@@ -134,5 +135,45 @@ function getEventForDay(date) {
     return '';
 }
 
-buildDayList();
+function addPositioningEvents() {
+    let tooltips = document.querySelectorAll('.day');
+    tooltips.forEach((tooltip, index) => {
+        tooltip.addEventListener("mouseover", positionTooltip);
+    });
+}
+
+function positionTooltip() {
+    // 'this' will refence the div.day node that contains the tooltiptext
+    let tooltipTextElem = this.querySelector(".tooltiptext");
+    let boundingRect = this.getBoundingClientRect();
+
+    let tipX = boundingRect.width + 5; 
+    let tipY = -40; 
+    // Position tooltip
+    tooltipTextElem.style.top = tipY + 'px';
+    tooltipTextElem.style.left = tipX + 'px';
+
+    let tooltipRect = tooltipTextElem.getBoundingClientRect();
+
+    // Out of bounds on the right
+    if ((tooltipRect.x + tooltipRect.width) > window.innerWidth) {
+        tipX = -tooltipRect.width - 5;
+    } 
+
+    // Out of bounds below
+    if ((tooltipRect.y + tooltipRect.height) > window.innerHeight) {
+        tipY = tipY -10;
+    } 
+
+    // Out of bounds above
+    if (tooltipRect.y < 0) {           
+        tipY = tipY - tooltipRect.y; 
+    }
+
+    // Apply corrected position
+    tooltipTextElem.style.top = tipY + 'px';
+    tooltipTextElem.style.left = tipX + 'px';
+}
+
+main();
 
