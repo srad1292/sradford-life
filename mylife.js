@@ -137,7 +137,7 @@ function getEventForDay(date) {
 
 function addPositioningEvents() {
     let tooltips = document.querySelectorAll('.day');
-    tooltips.forEach((tooltip, index) => {
+    tooltips.forEach(function(tooltip, index) {
         tooltip.addEventListener("mouseenter", positionTooltip);
         tooltip.addEventListener("click", positionTooltip);
     });
