@@ -78,6 +78,8 @@ function getEventForDay(date) {
         return "\nLast day of elementary school";
     } else if(equalsDay(date, 8, 25, 2004)) {
         return "\nFirst day of middle school";
+    } else if(equalsDay(date, 6, 2, 2005)) {
+        return "\nPaternal grandfather passes";
     } else if(equalsDay(date, 6, 7, 2007)) {
         return "\nLast day of middle school";
     } else if(equalsDay(date, 8, 27, 2007)) {
@@ -102,6 +104,8 @@ function getEventForDay(date) {
         return "\nGraduate from college";
     } else if(equalsDay(date, 10, 21, 2015)) {
         return "\nSee Back to the Future in theatres";
+    } else if(equalsDay(date, 1, 24, 2017)) {
+        return "\nPaternal grandmother passes";
     } else if(equalsDay(date, 4, 2, 2017)) {
         return "\nWrestlemania 33 in Orlando, FL";
     } else if(equalsDay(date, 4, 11, 2018)) {
