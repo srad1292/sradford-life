@@ -116,6 +116,8 @@ function getEventForDay(date) {
         return "\nFirst time buying my own new car";
     } else if(equalsDay(date, 3, 23, 2020)) {
         return "\nStart remote work due to Covid-19";
+    } else if(equalsDay(date, 6, 30, 2020)) {
+        return "\nMaternal grandmother passes";
     } else if(equalsDay(date, 1, 8, 2021)) {
         return "\nLast day at Shark Dreams";
     } else if(equalsDay(date, 2, 22, 2021)) {
