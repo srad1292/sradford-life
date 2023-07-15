@@ -1,17 +1,69 @@
+// @ts-nocheck
 const lifeContainer = document.getElementById("life-container");
+const lifeBar = document.getElementById("life-bar");
+const birthdayElem = document.getElementById("birthday");
+const dieDayElem = document.getElementById("dying-day");
+const ageElem = document.getElementById("max-age");
+const percentLivedElem = document.getElementById("percent-lived");
 
-let dateIterator = new Date("09/14/1992");
-let endDate = new Date("01/01/2070");
+
+const miilisecondsInDay = 86400000;
+const bornDate = "09/14/1992";
+const dieDate = "09/15/2067";
+
+let startDate = new Date(bornDate);
+let dateIterator = new Date(bornDate);
+let endDate = new Date(dieDate);
 let today = new Date();
 
 let eventText = '';
 let birthday = 0;
 
 
-
 function main() {
+    if(today >= endDate) {
+        today = new Date(dieDate);
+    }
+
+    let percentLived = getPercentLived();
+    buildDescription(percentLived);
+    buildLifeBar(percentLived);
     buildDayList();
     addPositioningEvents();
+}
+
+function getPercentLived() {
+    let totalDays = distanceBetweenDays(endDate, startDate);
+    let livedDays = distanceBetweenDays(today, startDate);
+    let percentage = (livedDays / totalDays * 100).toFixed(2);
+    // console.log("Distance from end to start: " + totalDays);
+    // console.log("Distance from today to start: " + livedDays);
+    // console.log("Percentage lived: " + percentage);
+    return percentage;
+}
+
+function buildDescription(percentage) {
+    birthdayElem.innerHTML = startDate.toDateString();
+    dieDayElem.innerHTML = endDate.toDateString();
+    ageElem.innerHTML = getExpectedAge();
+    percentLivedElem.innerHTML = `${percentage}%`;
+}
+
+function getExpectedAge() {
+    return Math.floor(distanceBetweenDays(endDate, startDate) / 365);
+}
+
+function buildLifeBar(percentage) {
+    lifeBar.style.width = `${percentage}%`;
+    lifeBar.innerHTML = `${percentage}%`;
+}
+
+function distanceBetweenDays(day1, day2) {
+    let midnight1 = new Date(`${day1.getMonth()+1}/${day1.getDate()}/${day1.getFullYear()}`);
+    let midnight2 = new Date(`${day2.getMonth()+1}/${day2.getDate()}/${day2.getFullYear()}`);
+    return Math.floor((Math.abs(midnight1-midnight2)) / miilisecondsInDay);
+    
+
 }
 
 function buildDayList() {

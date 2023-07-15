@@ -18,17 +18,6 @@ h2 {
     background-color: rgba(230,230,230,0.8);
 }
 
-#life-container {
-    width: 80%;
-    max-width: 900px;
-    margin: auto;
-    margin-bottom: 6rem; 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    row-gap: 12px;
-    column-gap: 6px;
-}
 
 .day {
     position: relative;
@@ -59,4 +48,49 @@ h2 {
     /* visibility: visible; */
     /* top: -10px; */
     /* left: 15px; */
+}
+
+.desc-value {
+    font-weight: bold;
+}
+
+#life-container {
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    margin-bottom: 6rem; 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    column-gap: 6px;
+}
+
+#description {
+    width: 60%;
+    min-width: 300px;
+    max-width: 900px;
+    margin: 2rem auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#life-bar-container {
+    height: 24px;
+    background-color: #dae2f0;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 60%;
+    min-width: 300px;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding:1px 0 1px 0;
+}
+
+#life-bar {
+    height: 24px;
+    border-radius: 4px;
+    background-color: #2196F3;
+    color: white;
+    text-align: center;
+    font-size: 22px;
 }
