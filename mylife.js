@@ -1,11 +1,13 @@
 // @ts-nocheck
 const lifeContainer = document.getElementById("life-container");
+const ttTextInstance = document.getElementsByClassName("tooltiptext")[0];
 const lifeBar = document.getElementById("life-bar");
 const birthdayElem = document.getElementById("birthday");
 const dieDayElem = document.getElementById("dying-day");
 const ageElem = document.getElementById("max-age");
 const percentLivedElem = document.getElementById("percent-lived");
 
+let ttTextClone = ttTextInstance.cloneNode();
 
 const miilisecondsInDay = 86400000;
 const bornDate = "09/14/1992";
@@ -68,14 +70,9 @@ function distanceBetweenDays(day1, day2) {
 
 function buildDayList() {
     let dayDiv;
-    let dayTooltip;
     let customEventText = '';
 
     while(dateIterator < endDate) {
-        eventText = dateIterator.toDateString();
-        
-        dayTooltip = document.createElement("span");
-        dayTooltip.classList.add("tooltiptext");
 
         dayDiv = document.createElement("div");
         dayDiv.classList.add("day");
@@ -85,22 +82,17 @@ function buildDayList() {
         }
 
         if(equalsDay(dateIterator,9,14,1992)) {
-            eventText+="\nI was born!";
             dayDiv.classList.add("event");
         } else if(dateIterator.getMonth()+1 === 9 && dateIterator.getDate() === 14 && dateIterator.getFullYear() > 1992 && dateIterator <= today) {
             // my birthday!
-            eventText += `\nMy ${humanize(dateIterator.getFullYear()-1992)} birthday!`; 
             dayDiv.classList.add("event");
         }
 
         customEventText = getEventForDay(dateIterator);
         if(customEventText !== '') {
-            eventText += customEventText;
             dayDiv.classList.add("event");
         }
 
-        dayTooltip.appendChild(document.createTextNode(eventText));
-        dayDiv.appendChild(dayTooltip);
 
         lifeContainer.appendChild(dayDiv);
 
@@ -195,24 +187,31 @@ function getEventForDay(date) {
 
 function addPositioningEvents() {
     let tooltips = document.querySelectorAll('.day');
-    tooltips.forEach(function(tooltip, index) {
-        tooltip.addEventListener("mouseenter", positionTooltip);
-        tooltip.addEventListener("touchstart", positionTooltip);
+    tooltips.forEach((tooltip, index) => {
+        tooltip.addEventListener("mouseenter", cloneAndPositionTooltip.bind(this, tooltip, index), false);
+        tooltip.addEventListener("click", cloneAndPositionTooltip.bind(this, tooltip, index), index);
     });
 }
 
-function positionTooltip() {
-    // 'this' will refence the div.day node that contains the tooltiptext
-    let tooltipTextElem = this.querySelector(".tooltiptext");
-    let boundingRect = this.getBoundingClientRect();
+function cloneAndPositionTooltip(tooltip, index) {
+    ttTextClone.remove();
+    ttTextClone = ttTextInstance.cloneNode();
+
+    let nodeDate = new Date(startDate);
+    nodeDate.setDate(nodeDate.getDate() + index);
+
+    ttTextClone.innerHTML = getTextForTooltip(nodeDate);
+    tooltip.appendChild(ttTextClone);
+
+    let boundingRect = tooltip.getBoundingClientRect();
 
     let tipX = boundingRect.width + 5; 
     let tipY = -20; 
     // Position tooltip
-    tooltipTextElem.style.top = tipY + 'px';
-    tooltipTextElem.style.left = tipX + 'px';
+    ttTextClone.style.top = tipY + 'px';
+    ttTextClone.style.left = tipX + 'px';
 
-    let tooltipRect = tooltipTextElem.getBoundingClientRect();
+    let tooltipRect = ttTextClone.getBoundingClientRect();
 
     // Out of bounds on the right
     if ((tooltipRect.x + tooltipRect.width) > window.innerWidth) {
@@ -230,8 +229,24 @@ function positionTooltip() {
     }
 
     // Apply corrected position
-    tooltipTextElem.style.top = tipY + 'px';
-    tooltipTextElem.style.left = tipX + 'px';
+    ttTextClone.style.top = tipY + 'px';
+    ttTextClone.style.left = tipX + 'px';
+}
+
+function getTextForTooltip(date) {
+    eventText = date.toDateString();
+
+    if(equalsDay(date,9,14,1992)) {
+        eventText+="\nI was born!";
+    } else if(date.getMonth()+1 === 9 && date.getDate() === 14 && date.getFullYear() > 1992 && date <= today) {
+        eventText += `\nMy ${humanize(date.getFullYear()-1992)} birthday!`; 
+    }
+    customEventText = getEventForDay(date);
+    if(customEventText !== '') {
+        eventText += customEventText;
+    }
+
+    return eventText;
 }
 
 main();
